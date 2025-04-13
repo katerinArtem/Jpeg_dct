@@ -1,6 +1,8 @@
 
 from math import cos,pi,degrees,sqrt,acos
 
+
+
 def cust(N,i,k):return cos((pi/N)*(i+0.5)*k)
 def DCT(k,g_s):return sum([g_s[i]*cust(len(g_s),i,k) for i in range(len(g_s))])
 def rDCT(u,G_s):return (2/len(G_s))*(G_s[0]*(1/2) + sum([G_s[i]*cos((pi/len(G_s)*(u+0.5)*i)) for i in range(1,len(G_s))]))
@@ -93,12 +95,21 @@ def RGBtoYCbCr(P:list):
     ]))
 
 def YCbCrtoRGB(P:list):
+    
+
+
     Y,Cb,Cr = P
-    return list(map(round,[
+    res = list(map(round,[
              Y + 1.402*(Cr-128),  
              Y - 0.34414*(Cb-128) - 0.71414*(Cr-128), 
              Y + 1.772*(Cb-128),  
     ]))
+
+    for i in range(len(res)):
+        if res[i] >= 256:res[i] = 255
+        if res[i] <= -1:res[i] = 0
+    return res
+
  
 def ftr(p_s,func):return [[func(p_s[y][x]) for x in range(len(p_s[y]))]for y in range(len(p_s))] 
 
@@ -111,6 +122,7 @@ def conv_ex(p_rgb):
 
 p_rgb = [60,60,60]
 
+
 #for given matrix in YCbCr pixel format output tree matrix with Y matrix Cb matrix,Cr matrix
 def subsampl_4_2_0(YCbCr_2d_img):
     M = YCbCr_2d_img
@@ -121,7 +133,7 @@ def subsampl_4_2_0(YCbCr_2d_img):
         M[y-1][x][1],
         M[y][x-1][1],
         M[y-1][x-1][1]
-        ])/4) for x in range(1,len(M[y]),2)] for y in range(1,len(M),2)]
+        ])/4 -0.1) for x in range(1,len(M[y]),2)] for y in range(1,len(M),2)]
     Cr_m = [[round(sum([
         M[y][x][2],
         M[y-1][x][2],
