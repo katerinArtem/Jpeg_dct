@@ -1,7 +1,7 @@
 
 
 # import cv2
-import numpy as np
+# import numpy as np
 from math import cos,pi
 
 #RGB → YCbCr → 4:2:0 subsampling → DCT → квантование → обратно.
